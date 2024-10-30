@@ -4,6 +4,7 @@ import pandas as pd
 from datetime import datetime
 import io
 import os
+import pytz
 
 
 app = Flask(__name__)
@@ -39,11 +40,15 @@ def download_csv():
                     last_price = float(item['last_price'])
                     total_volume += volume  # Accumulate total volume
 
+                    # Get current time in India Standard Time
+                    india_timezone = pytz.timezone('Asia/Kolkata')
+                    india_time = datetime.now(india_timezone).strftime('%Y-%m-%d %H:%M:%S')
+
                     volume_data.append({
                         'Coin': item['market'],
                         'Last Price': last_price,
                         '24h Volume': volume,
-                        'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'Timestamp': india_time,
                         'Total Count': '',  # Empty for individual coins
                         '% Contribution': ''  # Placeholder for now
 

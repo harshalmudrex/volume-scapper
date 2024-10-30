@@ -3,8 +3,12 @@ import requests
 import pandas as pd
 from datetime import datetime
 import io
+import os
+
 
 app = Flask(__name__)
+port = os.getenv('PORT', default=10000)
+
 
 @app.route('/download-csv', methods=['GET'])
 def download_csv():
@@ -28,7 +32,7 @@ def download_csv():
         total_volume = 0.0
         # Filter and collect data for specified market pairs
         for item in data:
-            if 'market' in item and item['market'].endswith(market_suffix):
+            if 'market' in item and item['market'].endswith(market_suffix) and item['market'] != 'USDTINR':
                 try:
                     # Convert 'volume' and 'last_price' to floats
                     volume = float(item['volume'])
@@ -40,7 +44,9 @@ def download_csv():
                         'Last Price': last_price,
                         '24h Volume': volume,
                         'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                        'Total Count': ''  # Empty for individual coins
+                        'Total Count': '',  # Empty for individual coins
+                        '% Contribution': ''  # Placeholder for now
+
                     })
                 except ValueError:
                     print(f"Invalid data for {item['market']}: volume or last_price is not a number.")
@@ -49,13 +55,20 @@ def download_csv():
         # Calculate total count
         total_count = len(volume_data)
 
+        # Compute % contribution for each coin
+        for coin_data in volume_data:
+            coin_volume = coin_data['24h Volume']
+            percent_contribution = (coin_volume / total_volume) * 100 if total_volume > 0 else 0
+            coin_data['% Contribution'] = round(percent_contribution, 2)
+
         # Append summary row to volume_data
         volume_data.append({
             'Coin': 'Total',
             'Last Price': '',
             '24h Volume': total_volume,
             'Timestamp': '',
-            'Total Count': total_count
+            'Total Count': total_count,
+            '% Contribution': '100.00'  # Total contribution is 100%
         })
 
         # Create DataFrame
@@ -80,5 +93,6 @@ def download_csv():
         # traceback.print_exc()
         return make_response(f"An error occurred: {e}", 500)
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=port, debug=True)

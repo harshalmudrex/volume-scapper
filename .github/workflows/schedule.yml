@@ -4,6 +4,7 @@ on:
   schedule:
     # Run daily at 09:20 UTC (14:50 IST)
     - cron: "20 9 * * *"
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   run-apis:

@@ -10,6 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call CoinDCX API
-        run: curl -X GET https://<your-heroku-app-name>.herokuapp.com/coin-dcx-past-24h-volume
+        run: curl -X GET https://volume-scapper-production.up.railway.app/coin-dcx-past-24h-volume?market=INR
       - name: Call CoinSwitch API
-        run: curl -X GET https://<your-heroku-app-name>.herokuapp.com/coin-switch-past-24h-volume
+        run: curl -X GET https://volume-scapper-production.up.railway.app/coin-switch-past-24h-volume?market=INR

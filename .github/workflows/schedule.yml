@@ -2,8 +2,8 @@ name: Run APIs Daily
 
 on:
   schedule:
-    # Run daily at 14:15 UTC
-    - cron: "15 14 * * *"
+    # Run daily at 09:20 UTC (14:50 IST)
+    - cron: "20 9 * * *"
 
 jobs:
   run-apis:

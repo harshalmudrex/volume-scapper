@@ -1,0 +1,15 @@
+name: Run APIs Daily
+
+on:
+  schedule:
+    # Run daily at 12:00 AM UTC
+    - cron: "0 0 * * *"
+
+jobs:
+  run-apis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call CoinDCX API
+        run: curl -X GET https://<your-heroku-app-name>.herokuapp.com/coin-dcx-past-24h-volume
+      - name: Call CoinSwitch API
+        run: curl -X GET https://<your-heroku-app-name>.herokuapp.com/coin-switch-past-24h-volume

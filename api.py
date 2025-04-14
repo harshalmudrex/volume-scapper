@@ -81,7 +81,7 @@ def send_telegram_notification(message):
 
 
 app = Flask(__name__)
-port = int(os.getenv('PORT', 5000))
+port = os.getenv('PORT', default=10000)
 
 
 @app.route('/coin-dcx-past-24h-volume', methods=['GET'])

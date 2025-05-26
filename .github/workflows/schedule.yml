@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call CoinDCX API
-        run: curl -X GET https://volume-scapper-production.up.railway.app/coin-dcx-past-24h-volume?market=INR
+        run: curl -X GET https://volume-scapper.onrender.com/coin-dcx-past-24h-volume?market=INR
       - name: Call CoinSwitch API
-        run: curl -X GET https://volume-scapper-production.up.railway.app/coin-switch-past-24h-volume?market=INR
+        run: curl -X GET https://volume-scapper.onrender.com/coin-switch-past-24h-volume?market=INR
